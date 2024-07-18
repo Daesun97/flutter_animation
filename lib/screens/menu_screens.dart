@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animations_study/screens/explicit_animation.dart';
+import 'package:flutter_animations_study/screens/explicit_challenge.dart';
 import 'package:flutter_animations_study/screens/implicit_animation.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -34,6 +36,33 @@ class MenuScreen extends StatelessWidget {
                 );
               },
               child: const Text('implicit Animations'),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(
+                  context,
+                  const ExplicitAnimationScreen(),
+                );
+              },
+              child: const Text('Explicit Animation'),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(
+                  context,
+                  const ExplicitChallengeScreen(),
+                );
+              },
+              child: const Text(
+                'Explicit Challange',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         ),
