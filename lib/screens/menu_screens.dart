@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animations_study/screens/custompainter.dart';
 import 'package:flutter_animations_study/screens/explicit_animation.dart';
 import 'package:flutter_animations_study/screens/explicit_challenge.dart';
 import 'package:flutter_animations_study/screens/implicit_animation.dart';
@@ -62,6 +63,20 @@ class MenuScreen extends StatelessWidget {
               child: const Text(
                 'Explicit Challange',
                 style: TextStyle(color: Colors.red),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(
+                  context,
+                  const AppleWatchScreen(),
+                );
+              },
+              child: const Text(
+                'Apple Watch',
               ),
             ),
           ],
