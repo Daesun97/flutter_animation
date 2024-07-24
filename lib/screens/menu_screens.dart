@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animations_study/card_challenge/card_challenge_screen.dart';
 import 'package:flutter_animations_study/screens/custompainter.dart';
 import 'package:flutter_animations_study/screens/explicit_animation.dart';
 import 'package:flutter_animations_study/screens/explicit_challenge.dart';
 import 'package:flutter_animations_study/screens/implicit_animation.dart';
+import 'package:flutter_animations_study/screens/pomodoro_challenge.dart';
+import 'package:flutter_animations_study/screens/swiping_cards_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -77,6 +80,50 @@ class MenuScreen extends StatelessWidget {
               },
               child: const Text(
                 'Apple Watch',
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(
+                  context,
+                  const PomodoroScreen(),
+                );
+              },
+              child: const Text(
+                'Pomodoro Challenge',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(
+                  context,
+                  const SwipingCardsScreen(),
+                );
+              },
+              child: const Text(
+                'Swiping Gesture',
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(
+                  context,
+                  const CardChallenge(),
+                );
+              },
+              child: const Text(
+                'Swiping Challenge',
+                style: TextStyle(color: Colors.red),
               ),
             ),
           ],
