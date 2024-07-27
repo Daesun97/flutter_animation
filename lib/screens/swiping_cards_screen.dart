@@ -127,7 +127,7 @@ class Card extends StatelessWidget {
         width: size.width * 0.8,
         height: size.height * 0.65,
         child: Image.asset(
-          "assets/$index.jpg",
+          "assets/country/$index.jpg",
           // fit: BoxFit.cover,
         ),
       ),
