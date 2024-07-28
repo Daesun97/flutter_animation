@@ -29,11 +29,11 @@ class _finalChallangeState extends State<finalChallange>
     vsync: this,
   );
 
-  bool _isPlayPauseTap = false;
+  bool _isTabCard = false;
 
   void _onPlayPauseTap() {
     setState(() {
-      _isPlayPauseTap = !_isPlayPauseTap;
+      _isTabCard = !_isTabCard;
     });
   }
 
@@ -64,11 +64,11 @@ class _finalChallangeState extends State<finalChallange>
           BackgroundBlur(
               currentPage: _currentPage,
               verticalController: _verticalController,
-              isAlbumTap: _isPlayPauseTap),
+              isAlbumTap: _isTabCard),
           ExplainationCard(
               bgPageController: _bgPageController,
               size: size,
-              isAlbumTap: _isPlayPauseTap),
+              isAlbumTap: _isTabCard),
           Positioned.fill(
             child: PageView.builder(
               controller: _fgPageController,
@@ -81,7 +81,7 @@ class _finalChallangeState extends State<finalChallange>
                     Positioned(
                       top: 180,
                       child: CoffeeCard(
-                          isCardtap: _isPlayPauseTap,
+                          isCardtap: _isTabCard,
                           index: index,
                           onTap: _onPlayPauseTap),
                     ),
@@ -91,14 +91,13 @@ class _finalChallangeState extends State<finalChallange>
             ),
           )
               .animate(
-                target: _isPlayPauseTap ? 1 : 0,
+                target: _isTabCard ? 1 : 0,
               )
               .slideY(
                 begin: 0,
                 end: -0.1,
                 duration: 0.8.seconds,
-                curve:
-                    _isPlayPauseTap ? Curves.easeInOutQuart : Curves.easeInExpo,
+                curve: _isTabCard ? Curves.easeInOutQuart : Curves.easeInExpo,
               ),
         ],
       ),

@@ -72,8 +72,15 @@ class _CoffeeCardState extends State<CoffeeCard> {
     ).animate(target: _istap ? 0 : 1).scale(
           begin: const Offset(1.3, 1.3),
           end: const Offset(0.9, 0.9),
-          duration: 500.milliseconds,
-          curve: Curves.bounceOut,
+          duration: 900.milliseconds,
+          curve: curves[widget.index],
         );
   }
 }
+
+List<Curve> curves = [
+  Curves.bounceOut,
+  Curves.easeOutBack,
+  Curves.elasticInOut,
+  Curves.linear
+];
