@@ -69,6 +69,8 @@ flutter:
     - assets/animation/
     - assets/country/
     - assets/glb/
+    - assets/coffee/beens/
+    - assets/coffee/bg_blur/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

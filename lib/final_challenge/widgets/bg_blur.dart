@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -22,12 +23,13 @@ class BackgroundBlur extends StatelessWidget {
     return Transform.scale(
       scale: 1.25,
       child: AnimatedSwitcher(
-        duration: 1.seconds,
+        duration: 800.milliseconds,
         child: Container(
           key: ValueKey(_currentPage),
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/$_currentPage.jpg"),
+              image:
+                  AssetImage("assets/coffee/bg_blur/${_currentPage + 1}.jpg"),
               fit: BoxFit.cover,
             ),
           ),

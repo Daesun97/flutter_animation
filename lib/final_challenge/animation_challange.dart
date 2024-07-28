@@ -1,7 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_animations_study/final_challenge/widgets/bg_blur.dart';
+import 'package:flutter_animations_study/final_challenge/widgets/card.dart';
+import 'package:flutter_animations_study/final_challenge/widgets/explanation.dart';
 
 class finalChallange extends StatefulWidget {
   const finalChallange({super.key});
@@ -12,136 +14,93 @@ class finalChallange extends StatefulWidget {
 
 class _finalChallangeState extends State<finalChallange>
     with TickerProviderStateMixin {
+  int _currentPage = 0;
   late final size = MediaQuery.of(context).size;
-  int _index = 0;
-  double get _progressEnd => max(
-        0.05,
-        _index / 3,
-      );
-  late final AnimationController _horizontalDragController =
-      AnimationController(
-    lowerBound: size.width * -1 - 200,
-    upperBound: size.width + 200,
-    duration: const Duration(
-      seconds: 1,
-    ),
-    value: 0.0,
+
+  late final PageController _fgPageController = PageController(
+    viewportFraction: 1.5,
+  );
+
+  late final PageController _bgPageController = PageController(
+    viewportFraction: 0.8,
+  );
+
+  late final AnimationController _verticalController = AnimationController(
     vsync: this,
   );
 
-  late final AnimationController _progressController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 500),
-  );
+  bool _isPlayPauseTap = false;
 
-  late final CurvedAnimation _curvedProgressAnimation = CurvedAnimation(
-    parent: _progressController,
-    curve: Curves.ease,
-  );
-
-  late Animation<double> _progress = Tween<double>(
-    begin: 0.05,
-    end: 3,
-  ).animate(
-    _curvedProgressAnimation,
-  );
-
-  void _animateProgress({
-    required double begin,
-    required double end,
-  }) {
-    _progressController.reset();
-    _progress = Tween<double>(
-      begin: begin,
-      end: end,
-    ).animate(_curvedProgressAnimation);
-
-    _progressController.forward();
-  }
-
-  void _onHorizontalDragEnd(DragEndDetails details) {
-    if (_horizontalDragController.value < -120) {
-      _horizontalDragController.reverse().whenComplete(
-            _whenComplete,
-          );
-    } else if (_horizontalDragController.value > 120) {
-      _horizontalDragController.forward().whenComplete(
-            _whenComplete,
-          );
-    } else {
-      _horizontalDragController.animateTo(
-        0.0,
-        curve: Curves.ease,
-      );
-    }
-  }
-
-  void _whenComplete() {
-    final prevProgressEnd = _progressEnd;
+  void _onPlayPauseTap() {
     setState(() {
-      _horizontalDragController.value = 0.0;
-      _index += 1;
-      _animateProgress(
-        begin: prevProgressEnd,
-        end: _progressEnd,
-      );
+      _isPlayPauseTap = !_isPlayPauseTap;
     });
   }
 
   @override
-  void dispose() {
-    _horizontalDragController.dispose();
-    _progressController.dispose();
-    _curvedProgressAnimation.dispose();
-
-    super.dispose();
+  void initState() {
+    super.initState();
+    _fgPageController.addListener(_sync);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _horizontalDragController,
-      builder: (context, child) {
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Stack(
-              alignment: Alignment.center,
-              children: [
-                EndText(index: _index),
-                Image.asset('assets/country/${_index + 1}.jpg')
-              ],
-            ),
-          ),
-        );
-      },
+  void _sync() {
+    _bgPageController.position.jumpTo(
+      (_fgPageController.position.pixels / 1.5 - size.width / 6) * 0.8,
     );
   }
-}
 
-class EndText extends StatelessWidget {
-  const EndText({
-    super.key,
-    required int index,
-  }) : _index = index;
-
-  final int _index;
+  void _onPageChanged(int newPage) {
+    setState(() {
+      _currentPage = newPage;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 500),
-        opacity: _index == 3 ? 1 : 0,
-        child: const Text(
-          "끝!",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 60,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+    return Scaffold(
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          BackgroundBlur(
+              currentPage: _currentPage,
+              verticalController: _verticalController,
+              isAlbumTap: _isPlayPauseTap),
+          ExplainationCard(
+              bgPageController: _bgPageController,
+              size: size,
+              isAlbumTap: _isPlayPauseTap),
+          Positioned.fill(
+            child: PageView.builder(
+              controller: _fgPageController,
+              onPageChanged: _onPageChanged,
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned(
+                      top: 180,
+                      child: CoffeeCard(
+                          isCardtap: _isPlayPauseTap,
+                          index: index,
+                          onTap: _onPlayPauseTap),
+                    ),
+                  ],
+                );
+              },
+            ),
+          )
+              .animate(
+                target: _isPlayPauseTap ? 1 : 0,
+              )
+              .slideY(
+                begin: 0,
+                end: -0.1,
+                duration: 0.8.seconds,
+                curve:
+                    _isPlayPauseTap ? Curves.easeInOutQuart : Curves.easeInExpo,
+              ),
+        ],
       ),
     );
   }

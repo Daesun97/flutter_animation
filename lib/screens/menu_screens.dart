@@ -45,18 +45,18 @@ class MenuScreen extends StatelessWidget {
               },
               child: const Text('implicit Animations'),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _goToPage(
-                  context,
-                  const ExplicitAnimationScreen(),
-                );
-              },
-              child: const Text('Explicit Animation'),
-            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     _goToPage(
+            //       context,
+            //       const ExplicitAnimationScreen(),
+            //     );
+            //   },
+            //   child: const Text('Explicit Animation'),
+            // ),
             const SizedBox(
               height: 10,
             ),
